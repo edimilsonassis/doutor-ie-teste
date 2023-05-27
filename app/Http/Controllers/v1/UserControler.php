@@ -2,11 +2,7 @@
 
 namespace App\Http\Controllers\v1;
 
-use App\Mail\UserMail;
 use Illuminate\Http\Response;
-
-use Illuminate\Support\Facades\Mail;
-use App\Jobs\SendNewUserNotificationJob;
 
 use App\Models\v1\User;
 use App\Http\Controllers\Controller;
@@ -33,8 +29,6 @@ class UserControler extends Controller
         $data = $request->validated();
 
         $user = User::factory()->create($data);
-
-        SendNewUserNotificationJob::dispatch($user);
 
         return $user;
     }
@@ -69,8 +63,6 @@ class UserControler extends Controller
         }
 
         $data = $request->validated();
-
-        SendNewUserNotificationJob::dispatch($user);
 
         return !$user->update($data) ?: response(null, Response::HTTP_CREATED);
     }

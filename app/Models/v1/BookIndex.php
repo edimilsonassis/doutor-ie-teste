@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class BookIndex extends Model
 {
     use HasFactory;
+
+    public function indexes()
+    {
+        return $this->belongsTo(BookIndex::class, 'id');
+    }
+
 }

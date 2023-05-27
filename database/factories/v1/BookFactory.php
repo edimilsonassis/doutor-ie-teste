@@ -1,7 +1,8 @@
 <?php
 
-namespace Database\Factories\V1;
+namespace Database\Factories\v1;
 
+use App\Models\v1\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,11 @@ class BookFactory extends Factory
      */
     public function definition(): array
     {
+        $users_id = User::all()->pluck('id')->toArray();
+
         return [
-            //
+            'titulo'                => fake()->sentence(),
+            'usuario_publicador_id' => fake()->randomElements($users_id)[0]
         ];
     }
 }

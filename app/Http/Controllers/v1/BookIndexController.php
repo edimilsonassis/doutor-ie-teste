@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\v1;
 
-use App\Http\Requests\StoreBookRequest;
-use App\Http\Requests\UpdateBookRequest;
-use App\Models\v1\Book;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBookIndexRequest;
+use App\Http\Requests\UpdateBookIndexRequest;
+use App\Models\v1\BookIndex;
 
-class BookController extends Controller
+class BookIndexController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +28,7 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBookRequest $request)
+    public function store(StoreBookIndexRequest $request)
     {
         //
     }
@@ -35,7 +36,7 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Book $book)
+    public function show(BookIndex $bookIndex)
     {
         //
     }
@@ -43,7 +44,7 @@ class BookController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Book $book)
+    public function edit(BookIndex $bookIndex)
     {
         //
     }
@@ -51,7 +52,7 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBookRequest $request, Book $book)
+    public function update(UpdateBookIndexRequest $request, BookIndex $bookIndex)
     {
         //
     }
@@ -59,7 +60,7 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Book $book)
+    public function destroy(BookIndex $bookIndex)
     {
         //
     }

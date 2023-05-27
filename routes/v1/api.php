@@ -1,8 +1,7 @@
 <?php
 
-use App\Http\Controllers\v1\AuthController;
-use App\Http\Controllers\v1\UserControler;
 use Illuminate\Http\Request;
+use App\Http\Controllers\v1\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,8 +36,16 @@ Route::group([
 
 });
 
-// HOME
-Route::get('/livros', function () {
-    return response()->json([]);
-    // return view('welcome
+
+// 
+Route::group([
+
+    'middleware' => 'api',
+    'prefix'     => 'livros',
+
+], function ($router) {
+
+    Route::get('/', 'BookController@index');
+    Route::post('/', [BookController::class, 'store']);
+
 });

@@ -12,6 +12,6 @@ class BookIndexSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        \App\Models\v1\BookIndex::factory(10)->create();
     }
 }

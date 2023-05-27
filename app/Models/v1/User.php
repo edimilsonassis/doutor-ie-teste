@@ -44,6 +44,11 @@ class User extends Authenticatable implements JWTSubject
         'password'          => 'hashed',
     ];
 
+    public function books()
+    {
+        return $this->hasMany(Book::class, 'usuario_publicador_id');
+    }
+
 
     // Rest omitted for brevity
 
