@@ -13,6 +13,8 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    const COLUMN_ID = 'id';
+
     /**
      * The attributes that are mass assignable.
      *

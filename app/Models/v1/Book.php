@@ -9,17 +9,26 @@ class Book extends Model
 {
     use HasFactory;
 
-    const RELATION_USER_INDEXES = 'user';
+    const RELATION_USER = 'user';
     const RELATION_BOOK_INDEXES = 'indexes';
+
+    const COLUMN_ID = 'id';
+    const COLUMN_TITULO = 'titulo';
+    const COLUMN_USUARIO_PUBLICADOR_ID = 'usuario_publicador_id';
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, User::COLUMN_ID);
     }
 
     public function indexes()
     {
-        return $this->hasMany(BookIndex::class, 'id')->with('indexes');
+        return $this->hasMany(BookIndex::class, BookIndex::COLUMN_ID)->with('indexes');
+    }
+
+    public function parents()
+    {
+        return $this->hasMany(BookIndex::class, BookIndex::COLUMN_ID)->with('indexes');
     }
 
 }
