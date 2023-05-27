@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// HOME
+Route::get('/', function () {
+    return response()->json([]);
+    // return view('welcome
+});
+
 // AUTH
 Route::group([
 
@@ -29,4 +35,10 @@ Route::group([
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('me', [AuthController::class, 'me']);
 
+});
+
+// HOME
+Route::get('/livros', function () {
+    return response()->json([]);
+    // return view('welcome
 });
