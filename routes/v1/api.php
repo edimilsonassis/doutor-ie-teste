@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\v1\AuthController;
+use App\Http\Controllers\v1\BookController;
+use App\Http\Controllers\v1\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,7 +39,7 @@ Route::group([
 });
 
 
-// 
+// BOOKS
 Route::group([
 
     'middleware' => 'api',
@@ -45,7 +47,10 @@ Route::group([
 
 ], function ($router) {
 
-    Route::get('/', 'BookController@index');
+    Route::get('/', [BookController::class, 'index']);
     Route::post('/', [BookController::class, 'store']);
 
 });
+
+// USERS
+Route::middleware('api')->apiResource('usuarios', UserController::class);

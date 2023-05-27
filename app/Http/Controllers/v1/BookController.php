@@ -16,7 +16,7 @@ class BookController extends Controller
     public function index()
     {
         return BookResource::collection(
-            Book::with('user')->with('indexes')->paginate(5)
+            Book::with(Book::RELATION_USER_INDEXES)->with(Book::RELATION_BOOK_INDEXES)->paginate(5)
         );
     }
 

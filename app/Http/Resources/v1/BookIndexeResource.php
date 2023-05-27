@@ -15,10 +15,10 @@ class BookIndexeResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'          => $this->id,
-            'title'       => $this->title,
-            'pagina'      => $this->pagina,
-            'sub_indices' => BookIndexeResource::collection($this->whenLoaded('indexes')),
+            'id'         => $this->id,
+            'titulo'     => $this->titulo,
+            'pagina'     => $this->pagina,
+            'subindices' => BookIndexeResource::collection($this->whenLoaded('indexes')),
         ];
     }
 }

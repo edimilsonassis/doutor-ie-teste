@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\v1\UserResource;
 use App\Http\Requests\v1\{StoreUserRequest, UpdateUserRequest};
 
-class UserControler extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.

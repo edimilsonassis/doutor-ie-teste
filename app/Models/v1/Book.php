@@ -9,6 +9,9 @@ class Book extends Model
 {
     use HasFactory;
 
+    const RELATION_USER_INDEXES = 'user';
+    const RELATION_BOOK_INDEXES = 'indexes';
+
     public function user()
     {
         return $this->belongsTo(User::class, 'id');
