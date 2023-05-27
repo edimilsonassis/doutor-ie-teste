@@ -13,9 +13,9 @@ return new class extends Migration {
         Schema::create('book_indices', function (Blueprint $table) {
             $table->id();
             $table->foreignId('livro_id')->constrained('books');
-            $table->foreignId('indice_pai_id')->constrained('book_indices');
+            $table->foreignId('indice_pai_id')->nullable()->constrained('book_indices');
             $table->string('titulo', 100)->unique();
-            $table->integer('pagina')->unique();
+            $table->integer('pagina');
             $table->timestamps();
         });
     }

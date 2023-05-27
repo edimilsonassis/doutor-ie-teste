@@ -14,4 +14,9 @@ class Book extends Model
         return $this->belongsTo(User::class, 'id');
     }
 
+    public function indexes()
+    {
+        return $this->hasMany(BookIndex::class, 'id')->with('indexes');
+    }
+
 }

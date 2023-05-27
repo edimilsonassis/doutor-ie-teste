@@ -22,10 +22,10 @@ class BookIndexFactory extends Factory
         $books_indexes_id = BookIndex::all()->pluck('id')->toArray();
 
         return [
-            'titulo'        => fake()->sentence(10),
+            'titulo'        => fake()->sentence(),
             'pagina'        => fake()->randomNumber(),
             'livro_id'      => fake()->randomElements($books_id)[0],
-            'indice_pai_id' => fake()->randomElements($books_indexes_id)[0],
+            'indice_pai_id' => $books_indexes_id ? fake()->randomElements($books_indexes_id)[0] : null,
         ];
     }
 }

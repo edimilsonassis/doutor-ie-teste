@@ -11,7 +11,12 @@ class BookIndex extends Model
 
     public function indexes()
     {
-        return $this->belongsTo(BookIndex::class, 'id');
+        return $this->hasMany(BookIndex::class, 'id');
+    }
+
+    public function sub_indexes()
+    {
+        return $this->hasMany(BookIndex::class, 'id');
     }
 
 }
