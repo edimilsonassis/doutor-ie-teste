@@ -74,7 +74,7 @@ class BookController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(StoreBookRequest $request)
+    public function store(StoreBookRequest $request)
     {
         $data = $request->validated();
 

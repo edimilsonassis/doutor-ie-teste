@@ -47,7 +47,7 @@ Route::group([
 ], function ($router) {
 
     Route::get('/', [BookController::class, 'index']);
-    Route::post('/', [BookController::class, 'create']);
+    Route::post('/', [BookController::class, 'store']);
     Route::post('/{livroId}/importar-indices-xml', [BookController::class, 'import']);
 
 });
