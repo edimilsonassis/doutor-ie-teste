@@ -57,7 +57,6 @@ Cadastra um novo livro e valida a estrutura dos índices.
 
 ```json
 {
-  "usuario_publicador_id": 1,
   "titulo": "Título do Livro",
   "indices": [
     {
