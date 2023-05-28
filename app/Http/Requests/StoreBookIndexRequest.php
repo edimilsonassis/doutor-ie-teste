@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\v1\Book;
 use App\Models\v1\BookIndex;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreBookIndexRequest extends FormRequest
 {
@@ -18,15 +20,30 @@ class StoreBookIndexRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule','array','string>
      */
     public function rules(): array
     {
         return [
-            BookIndex::COLUMN_LIVRO_ID => 'required|integer',
-            BookIndex::COLUMN_INDICE_PAI_ID => 'integer',
-            BookIndex::COLUMN_PAGINA => 'required|integer',
-            BookIndex::COLUMN_TITULO => 'required|string|min:1|max:100',
+            BookIndex::COLUMN_LIVRO_ID => [
+                'required',
+                'integer'
+            ],
+            BookIndex::COLUMN_INDICE_PAI_ID => [
+                Rule::exists('book', Book::COLUMN_ID),
+                'integer',
+            ],
+            BookIndex::COLUMN_PAGINA => [
+                'required',
+                'integer'
+            ],
+            BookIndex::COLUMN_TITULO => [
+                Rule::unique('book_indexes', BookIndex::COLUMN_ID),
+                'required',
+                'string',
+                'min:1',
+                'max:100'
+            ],
         ];
     }
 }

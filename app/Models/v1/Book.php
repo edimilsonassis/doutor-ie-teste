@@ -17,6 +17,16 @@ class Book extends Model
     const COLUMN_INDICES = 'indices';
     const COLUMN_USUARIO_PUBLICADOR_ID = 'usuario_publicador_id';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        self::COLUMN_TITULO,
+        self::COLUMN_USUARIO_PUBLICADOR_ID,
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, User::COLUMN_ID);

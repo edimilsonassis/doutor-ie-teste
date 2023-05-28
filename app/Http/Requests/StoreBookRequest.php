@@ -25,13 +25,10 @@ class StoreBookRequest extends FormRequest
     {
         return [
             Book::COLUMN_TITULO => [
+                Rule::unique('books', Book::COLUMN_TITULO),
                 'required',
                 'string',
                 'max:100'
-            ],
-            Book::COLUMN_USUARIO_PUBLICADOR_ID => [
-                'required',
-                'integer',
             ]
         ];
     }

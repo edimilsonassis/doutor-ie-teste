@@ -83,11 +83,11 @@ class BookController extends Controller
 
             $livro = Book::create([
                 'usuario_publicador_id' => auth()->user()->id,
-                'titulo'                => $data->titulo,
+                'titulo'                => $data['titulo'],
             ]);
 
-            if ($data->has('indices')) {
-                $this->recursiveCreateIndexes($data->indices, $livro->id);
+            if (isset($data['indices'])) {
+                $this->recursiveCreateIndexes($data['indices'], $livro->id);
             }
 
             DB::commit();
@@ -95,7 +95,10 @@ class BookController extends Controller
             return response()->json($livro, 201);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Erro ao cadastrar o livro.'], 500);
+            return response()->json([
+                'error'   => 'Erro ao cadastrar o livro.',
+                'details' => $e->getMessage()
+            ], 500);
         }
     }
 
