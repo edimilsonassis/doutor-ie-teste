@@ -30,7 +30,6 @@ class BookController extends Controller
             }
 
             if ($url_indexes) {
-                // $query->with(BookIndex::RELATION_PARENTS);
                 $query->whereHas(BookIndex::RELATION_PARENTS, function ($subQuery) use ($url_indexes) {
                     $subQuery->where(BookIndex::COLUMN_TITULO, 'like', "%$url_indexes%"); //->with(BookIndex::RELATION_PARENTS);
                 });

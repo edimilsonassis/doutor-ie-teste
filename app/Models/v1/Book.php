@@ -28,7 +28,7 @@ class Book extends Model
 
     public function parents()
     {
-        return $this->hasMany(BookIndex::class, BookIndex::COLUMN_ID)->with('indexes');
+        return $this->hasMany(BookIndex::class, BookIndex::COLUMN_ID)->with('parents');
     }
 
 }
