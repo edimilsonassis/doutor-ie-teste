@@ -10,7 +10,7 @@ class Book extends Model
     use HasFactory;
 
     const RELATION_USER = 'user';
-    const RELATION_BOOK_INDEXES = 'indexes';
+    const RELATION_books_indexes = 'indexes';
 
     const COLUMN_ID = 'id';
     const COLUMN_TITULO = 'titulo';
@@ -24,6 +24,7 @@ class Book extends Model
      */
     protected $fillable = [
         self::COLUMN_TITULO,
+        self::COLUMN_INDICES,
         self::COLUMN_USUARIO_PUBLICADOR_ID,
     ];
 

@@ -11,6 +11,7 @@ use App\Http\Resources\v1\BookResource;
 use App\Models\v1\BookIndex;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class BookController extends Controller
 {
@@ -24,7 +25,7 @@ class BookController extends Controller
 
         $books = Book::with(Book::RELATION_USER);
 
-        $books->with(BookIndex::RELATION_BOOK_INDEXES);
+        $books->with(BookIndex::RELATION_books_indexes);
 
         $books->where(function ($query) use ($url_title, $url_indexes) {
             if ($url_title) {
@@ -36,7 +37,7 @@ class BookController extends Controller
                     $subQuery->where(BookIndex::COLUMN_TITULO, 'like', "%$url_indexes%"); //->with(BookIndex::RELATION_PARENTS);
                 });
             } else {
-                $query->with(BookIndex::RELATION_BOOK_INDEXES);
+                $query->with(BookIndex::RELATION_books_indexes);
             }
         });
 
@@ -52,21 +53,35 @@ class BookController extends Controller
 
     private function recursiveCreateIndexes(array $indexes, $bookId, $parentId = null)
     {
-        foreach ($indexes as $indiceData) {
-            $indiceRequest = new StoreBookIndexRequest($indiceData);
+        foreach ($indexes as $indexe) {
+            $indiceRequest = new StoreBookIndexRequest();
+
+            $indiceRequest->validate(
+                $indiceRequest->rules()
+                ,
+                [
+                    BookIndex::COLUMN_INDICE_PAI_ID => $parentId,
+                    BookIndex::COLUMN_LIVRO_ID => $bookId,
+                    BookIndex::COLUMN_TITULO => $indexe['titulo'] ?? null,
+                    BookIndex::COLUMN_PAGINA => $indexe['pagina'] ?? null,
+                ]
+            );
+
+            dd($indiceRequest);
+
             $validatedData = $indiceRequest->validated();
 
-            $indice = new BookIndex([
-                'livro_id'      => $bookId,
-                'indice_pai_id' => $parentId,
-                'titulo'        => $validatedData['titulo'],
-                'pagina'        => $validatedData['pagina'],
+            $indice = BookIndex::create([
+                BookIndex::COLUMN_INDICE_PAI_ID => $parentId,
+                BookIndex::COLUMN_LIVRO_ID => $bookId,
+                BookIndex::COLUMN_TITULO => $validatedData['titulo'],
+                BookIndex::COLUMN_PAGINA => $validatedData['pagina'],
             ]);
 
-            $indice->save();
+            // $indice->save();
 
-            if (isset($indiceData['indices'])) {
-                $this->createIndices($indiceData['indices'], $bookId, $indice->id);
+            if (isset($indexe['indices'])) {
+                $this->createIndices($indexe['indices'], $bookId, $indice->id);
             }
         }
     }

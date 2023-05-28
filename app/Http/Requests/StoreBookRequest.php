@@ -29,6 +29,9 @@ class StoreBookRequest extends FormRequest
                 'required',
                 'string',
                 'max:100'
+            ],
+            Book::COLUMN_INDICES => [
+                'array'
             ]
         ];
     }

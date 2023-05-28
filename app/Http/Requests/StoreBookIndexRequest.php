@@ -25,20 +25,20 @@ class StoreBookIndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            BookIndex::COLUMN_LIVRO_ID => [
-                'required',
-                'integer'
-            ],
             BookIndex::COLUMN_INDICE_PAI_ID => [
                 Rule::exists('book', Book::COLUMN_ID),
                 'integer',
+            ],
+            BookIndex::COLUMN_LIVRO_ID => [
+                'required',
+                'integer'
             ],
             BookIndex::COLUMN_PAGINA => [
                 'required',
                 'integer'
             ],
             BookIndex::COLUMN_TITULO => [
-                Rule::unique('book_indexes', BookIndex::COLUMN_ID),
+                Rule::unique('books_indexes', BookIndex::COLUMN_ID),
                 'required',
                 'string',
                 'min:1',
