@@ -1,66 +1,84 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# API RESTful de Cadastro de Livros e Índices/Sumário
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Esta API permite o cadastro de livros e seus respectivos índices/sumários. Apenas usuários logados que são os publicadores dos livros têm permissão para realizar o cadastro.
 
-## About Laravel
+## Testes
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+[Link para o Postman](https://elements.getpostman.com/redirect?entityId=17260296-d93c6ab6-ba63-428d-9948-3c0008f2367a&entityType=collection)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tabelas
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Usuários
 
-## Learning Laravel
+Tabela padrão fornecida pelo Laravel.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Livros
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Tabela responsável pelo armazenamento das informações dos livros.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Campo                  | Tipo     | Descrição                           |
+|------------------------|----------|-------------------------------------|
+| id                     | Int      | Identificador único do livro         |
+| usuario_publicador_id  | Int      | ID do usuário publicador do livro    |
+| titulo                 | String   | Título do livro                      |
 
-## Laravel Sponsors
+### Índices
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Tabela responsável pelo armazenamento das informações dos índices/sumários dos livros.
 
-### Premium Partners
+| Campo           | Tipo     | Descrição                            |
+|-----------------|----------|--------------------------------------|
+| id              | Int      | Identificador único do índice         |
+| livro_id        | Int      | ID do livro ao qual o índice pertence |
+| indice_pai_id   | Int      | ID do índice pai (quando houver)      |
+| titulo          | String   | Título do índice                      |
+| pagina          | Int      | Página do livro associada ao índice   |
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## Rotas
 
-## Contributing
+### POST v1/auth/token
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Recupera o token de acesso do usuário para poder acessar as outras rotas.
 
-## Code of Conduct
+### GET v1/livros
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Listar livros.
 
-## Security Vulnerabilities
+#### Query Params
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- titulo: Filtra os livros pelo título.
+- titulo_do_indice: Retorna os livros que possuem o índice com o título pesquisado, juntamente com seus ascendentes, quando houver.
 
-## License
+### POST v1/livros
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Cadastra um novo livro e valida a estrutura dos índices.
+
+#### Request Body
+
+```json
+{
+  "usuario_publicador_id": 1,
+  "titulo": "Título do Livro",
+  "indices": [
+    {
+      "indice_pai_id": null,
+      "titulo": "Capítulo 1",
+      "pagina": 10
+    },
+    {
+      "indice_pai_id": 1,
+      "titulo": "Seção 1.1",
+      "pagina": 15
+    },
+    {
+      "indice_pai_id": 1,
+      "titulo": "Seção 1.2",
+      "pagina": 20
+    }
+  ]
+}
+```
+
+### POST v1/livros/{livroId}/importar-indices-xml
+
+Importa índices em formato XML para um livro específico.
