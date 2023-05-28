@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\v1\BookIndex;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreBookIndexRequest extends FormRequest
@@ -22,7 +23,10 @@ class StoreBookIndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            BookIndex::COLUMN_LIVRO_ID => 'required|integer',
+            BookIndex::COLUMN_INDICE_PAI_ID => 'integer',
+            BookIndex::COLUMN_PAGINA => 'required|integer',
+            BookIndex::COLUMN_TITULO => 'required|string|min:1|max:100',
         ];
     }
 }

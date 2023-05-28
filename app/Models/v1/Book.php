@@ -14,6 +14,7 @@ class Book extends Model
 
     const COLUMN_ID = 'id';
     const COLUMN_TITULO = 'titulo';
+    const COLUMN_INDICES = 'indices';
     const COLUMN_USUARIO_PUBLICADOR_ID = 'usuario_publicador_id';
 
     public function user()

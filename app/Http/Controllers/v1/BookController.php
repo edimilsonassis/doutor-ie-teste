@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\Http\Requests\StoreBookIndexRequest;
 use App\Models\v1\Book;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBookRequest;
@@ -9,6 +10,7 @@ use App\Http\Requests\UpdateBookRequest;
 use App\Http\Resources\v1\BookResource;
 use App\Models\v1\BookIndex;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
@@ -48,6 +50,27 @@ class BookController extends Controller
         return BookResource::collection($books->paginate(5));
     }
 
+    private function recursiveCreateIndexes(array $indexes, $bookId, $parentId = null)
+    {
+        foreach ($indexes as $indiceData) {
+            $indiceRequest = new StoreBookIndexRequest($indiceData);
+            $validatedData = $indiceRequest->validated();
+
+            $indice = new BookIndex([
+                'livro_id'      => $bookId,
+                'indice_pai_id' => $parentId,
+                'titulo'        => $validatedData['titulo'],
+                'pagina'        => $validatedData['pagina'],
+            ]);
+
+            $indice->save();
+
+            if (isset($indiceData['indices'])) {
+                $this->createIndices($indiceData['indices'], $bookId, $indice->id);
+            }
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -55,11 +78,25 @@ class BookController extends Controller
     {
         $data = $request->validated();
 
-        $book = Book::factory()->create($data);
+        try {
+            DB::beginTransaction();
 
-        // SEND MAIL
+            $livro = Book::create([
+                'usuario_publicador_id' => auth()->user()->id,
+                'titulo'                => $data->titulo,
+            ]);
 
-        return $book;
+            if ($data->has('indices')) {
+                $this->recursiveCreateIndexes($data->indices, $livro->id);
+            }
+
+            DB::commit();
+
+            return response()->json($livro, 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Erro ao cadastrar o livro.'], 500);
+        }
     }
 
     /**
