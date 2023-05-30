@@ -57,24 +57,51 @@ Cadastra um novo livro e valida a estrutura dos índices.
 
 ```json
 {
-  "titulo": "Título do Livro",
-  "indices": [
-    {
-      "indice_pai_id": null,
-      "titulo": "Capítulo 1",
-      "pagina": 10
-    },
-    {
-      "indice_pai_id": 1,
-      "titulo": "Seção 1.1",
-      "pagina": 15
-    },
-    {
-      "indice_pai_id": 1,
-      "titulo": "Seção 1.2",
-      "pagina": 20
-    }
-  ]
+    "titulo": "Título do Livro 1",
+    "indices": [
+        {
+            "titulo": "Capítulo 1",
+            "pagina": 10,
+            "indices": [
+                {
+                    "titulo": "Capítulo 1 - Seção 1.1",
+                    "pagina": 15
+                },
+                {
+                    "titulo": "Capítulo 1 - Seção 1.2",
+                    "pagina": 20,
+                    "indices": [
+                        {
+                            "titulo": "Capítulo 1 - Seção 1.2 - Subseção 1.2.1",
+                            "pagina": 25
+                        },
+                        {
+                            "titulo": "Capítulo 1 - Seção 1.2 - Subseção 1.2.2",
+                            "pagina": 30
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "titulo": "Capítulo 2",
+            "pagina": 35,
+            "indices": [
+                {
+                    "titulo": "Capítulo 2 - Seção 2.1",
+                    "pagina": 40
+                },
+                {
+                    "titulo": "Capítulo 2 - Seção 2.2",
+                    "pagina": 45
+                }
+            ]
+        },
+        {
+            "titulo": "Capítulo 3",
+            "pagina": 50
+        }
+    ]
 }
 ```
 
@@ -84,7 +111,7 @@ Importa índices em formato XML para um livro específico.
 
 ## Importação de XML
 
-`
+```xml
 <indice>
     <item pagina="10" titulo="Capítulo 1">
         <item pagina="15" titulo="Seção 1.1" />
@@ -99,4 +126,4 @@ Importa índices em formato XML para um livro específico.
     </item>
     <item pagina="50" titulo="Capítulo 3" />
 </indice>
-`
+```

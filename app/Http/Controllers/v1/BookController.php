@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1;
 
+use Exception;
 use App\Jobs\ImportIndexXML;
 use App\Models\v1\Book;
 use App\Http\Controllers\Controller;
@@ -72,12 +73,9 @@ class BookController extends Controller
             DB::commit();
 
             return response()->json($livro, 201);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
-            return response()->json([
-                'error'   => 'Erro ao cadastrar o livro.',
-                'details' => $e->getMessage()
-            ], 500);
+            return response()->json(['error' => 'Erro ao cadastrar o livro.'], 500);
         }
     }
 
@@ -89,9 +87,7 @@ class BookController extends Controller
         $urlBookId = (int) $livroId;
 
         if (!Book::find($urlBookId)) {
-            return response()->json([
-                'error' => 'Livro não encontrado.',
-            ], 500);
+            return response()->json(['error' => 'Livro não encontrado.'], 500);
         }
 
         if ($request->hasFile('xml')) {
