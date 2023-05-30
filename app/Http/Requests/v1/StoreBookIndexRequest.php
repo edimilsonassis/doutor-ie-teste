@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\v1;
 
 use App\Models\v1\Book;
 use App\Models\v1\BookIndex;
@@ -22,11 +22,11 @@ class StoreBookIndexRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule','array','string>
      */
-    public function rules(): array
+    public static function internalRules(): array
     {
         return [
             BookIndex::COLUMN_INDICE_PAI_ID => [
-                Rule::exists('book', Book::COLUMN_ID),
+                'nullable',
                 'integer',
             ],
             BookIndex::COLUMN_LIVRO_ID => [
@@ -38,12 +38,26 @@ class StoreBookIndexRequest extends FormRequest
                 'integer'
             ],
             BookIndex::COLUMN_TITULO => [
-                Rule::unique('books_indexes', BookIndex::COLUMN_ID),
                 'required',
                 'string',
                 'min:1',
-                'max:100'
+                'max:100',
             ],
         ];
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule','array','string>
+     */
+    public function rules(): array
+    {
+        $rules = $this->internalRules();
+
+        $rules[BookIndex::COLUMN_INDICE_PAI_ID][] = Rule::exists('books_indexes', BookIndex::COLUMN_LIVRO_ID);
+        $rules[BookIndex::COLUMN_TITULO][]        = Rule::unique('books_indexes', BookIndex::COLUMN_TITULO);
+
+        return $rules;
     }
 }

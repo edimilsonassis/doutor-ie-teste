@@ -17,7 +17,7 @@ class BookResource extends JsonResource
         // return parent::toArray($request);
 
         return [
-            'id'                 => $this->id,
+            // 'id'                 => $this->id,
             'titulo'             => $this->titulo,
             'usuario_publicador' => new UserResource($this->whenLoaded('user')),
             'indices'            => BookIndexeResource::collection($this->whenLoaded('indexes')),

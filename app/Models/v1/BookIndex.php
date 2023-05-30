@@ -2,6 +2,7 @@
 
 namespace App\Models\v1;
 
+use App\Http\Resources\v1\BookResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,7 +13,7 @@ class BookIndex extends Model
     protected $table = 'books_indexes';
 
     const RELATION_PARENTS = 'parents';
-    const RELATION_books_indexes = 'indexes';
+    const RELATION_BOOKS_INDEXES = 'indexes';
 
     const COLUMN_ID = 'id';
     const COLUMN_TITULO = 'titulo';
@@ -32,13 +33,18 @@ class BookIndex extends Model
         self::COLUMN_INDICE_PAI_ID,
     ];
 
-    public function indexes()
+    public function parentbook()
     {
-        return $this->hasMany(self::class, self::COLUMN_INDICE_PAI_ID, self::COLUMN_ID)->with('indexes');
+        return $this->belongsTo(Book::class, 'livro_id')->with('indexes.subindexes');
     }
 
-    public function parents()
+    public function parentindexes()
     {
-        return $this->hasMany(self::class, self::COLUMN_INDICE_PAI_ID)->with('parents');
+        return $this->belongsTo(BookIndex::class, 'id', 'indice_pai_id')->with('parentindexes');
+    }
+
+    public function subindexes()
+    {
+        return $this->hasMany(BookIndex::class, 'indice_pai_id')->with('subindexes');
     }
 }

@@ -20,7 +20,7 @@ class BookIndexeResource extends JsonResource
             'id'         => $this->id,
             'titulo'     => $this->titulo,
             'pagina'     => $this->pagina,
-            'subindices' => BookIndexeResource::collection($this->whenLoaded('indexes')),
+            'subindices' => BookIndexeResource::collection($this->whenLoaded('subindexes')),
         ];
     }
 }

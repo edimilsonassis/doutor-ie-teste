@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreBookIndexRequest;
+use App\Http\Requests\v1\StoreBookIndexRequest;
 
 class BookIndexController extends Controller
 {

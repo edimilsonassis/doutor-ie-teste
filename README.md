@@ -81,3 +81,22 @@ Cadastra um novo livro e valida a estrutura dos índices.
 ### POST v1/livros/{livroId}/importar-indices-xml
 
 Importa índices em formato XML para um livro específico.
+
+## Importação de XML
+
+`
+<indice>
+    <item pagina="10" titulo="Capítulo 1">
+        <item pagina="15" titulo="Seção 1.1" />
+        <item pagina="20" titulo="Seção 1.2">
+            <item pagina="25" titulo="Subseção 1.2.1" />
+            <item pagina="30" titulo="Subseção 1.2.2" />
+        </item>
+    </item>
+    <item pagina="35" titulo="Capítulo 2">
+        <item pagina="40" titulo="Seção 2.1" />
+        <item pagina="45" titulo="Seção 2.2" />
+    </item>
+    <item pagina="50" titulo="Capítulo 3" />
+</indice>
+`

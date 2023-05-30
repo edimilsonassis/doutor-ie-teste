@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Route;
 // HOME
 Route::get('/', function () {
     return response()->json([]);
-    // return view('welcome
 });
 
 // AUTH
@@ -31,7 +30,7 @@ Route::group([
 
 ], function ($router) {
 
-    Route::post('token', [AuthController::class, 'token']);
+    Route::post('token', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::post('me', [AuthController::class, 'me']);
@@ -41,7 +40,7 @@ Route::group([
 // BOOKS
 Route::group([
 
-    'middleware' => 'api',
+    'middleware' => 'auth',
     'prefix'     => 'livros',
 
 ], function ($router) {
@@ -53,4 +52,4 @@ Route::group([
 });
 
 // USERS
-Route::middleware('api')->apiResource('usuarios', UserController::class);
+Route::apiResource('usuarios', UserController::class);

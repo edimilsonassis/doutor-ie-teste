@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->id(MD::COLUMN_ID);
             $table->foreignId(MD::COLUMN_LIVRO_ID)->constrained('books');
             $table->foreignId(MD::COLUMN_INDICE_PAI_ID)->nullable()->constrained('books_indexes');
-            $table->string(MD::COLUMN_TITULO, 100)->unique();
+            $table->string(MD::COLUMN_TITULO, 100);
             $table->integer(MD::COLUMN_PAGINA);
             $table->timestamps();
         });
